@@ -1,35 +1,27 @@
-import gameConfig from './gameConfig.mjs';
-
-const playFieldOffsetLeft = gameConfig.padding;
-const playFieldOffsetTop = gameConfig.infoFieldHeight;
-
-const collectibleSprite = gameConfig.collectibleSprite;
-const spriteWidth = collectibleSprite.width;
-const spriteHeight = collectibleSprite.height;
+import { dimensions } from "./gameCanvas.mjs";
 
 class Collectible {
-  constructor({ x, y, value = 1, id, spriteSrcIndex = 0 }) {
+  constructor({ x, y, id }, score = 1) {
     this.x = x;
     this.y = y;
-    this.value = value;
+    this.score = score;
     this.id = id;
-    this.spriteSrcIndex = spriteSrcIndex;
+    this.size = 10;
   }
 
-  setState({ x, y, value = 1, id, spriteSrcIndex }) {
-    this.x = x;
-    this.y = y;
-    this.value = value;
-    this.id = id;
-    this.spriteSrcIndex = spriteSrcIndex;
-  }
-
-  draw(ctx, sprites) {
-    const x = this.x + playFieldOffsetLeft;
-    const y = this.y + playFieldOffsetTop;
-    const image = sprites[this.spriteSrcIndex];
-    ctx.drawImage(image, x, y, spriteWidth, spriteHeight);
+  draw() {
+    const ctx = dimensions.context;
+    ctx.fillStyle = "red";
+    ctx.fillRect(this.x, this.y, this.size, this.size);
   }
 }
+
+/*
+  Note: Attempt to export this for use
+  in server.js
+*/
+try {
+  module.exports = Collectible;
+} catch (e) {}
 
 export default Collectible;
